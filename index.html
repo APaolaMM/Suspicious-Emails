@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="stylesheet.css" />
+  <title> Correos Electrónicos Sospechosos </title>
+
+</head>
+
+<body>
+	<div class="video">
+	<video controls autoplay width="640" height="480">
+		<source src="Módulo 3_Suspicious Emails.mp4" type="video/mp4" />
+	</video>
+</div>
+    <div class="preguntasportema"> 
+<fieldset>
+	<legend>Cuestionario Correos Electrónicos Sospechosos</legend>
+	<div id="test">
+		<div class="cuestion">1. “Se suplanta la identidad de una persona u organizaci&oacute;n para enviar spam, difundir malware o llevar a cabo ataques de phishing”. La definici&oacute;n anterior corresponde a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="0" value="a">&nbsp;a : Email Spoofing. &nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="b">&nbsp;b : Phishing. &nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="c">&nbsp;c : Ingenier&iacute;a Social. &nbsp;</label>
+		</div>
+		<div class="cuestion">2. Un elemento en la cabecera para identificar la autenticidad de un correo corresponde a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="1" value="a">&nbsp;a : Firma.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="b">&nbsp;b : Informaci&oacute;n relativa a quien env&iacute;a y recibe.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="c">&nbsp;c : Fecha de creaci&oacute;n de los servidores.&nbsp;</label>
+		</div>
+		<div class="cuestion">3. Un elemento en la cabecera para identificar la autenticidad de un correo corresponde a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="2" value="a">&nbsp;a : Fecha de env&iacute;o y recepci&oacute;n del email. &nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="b">&nbsp;b : Cliente de correo que se utiliz&oacute; para recibirlo. &nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="c">&nbsp;c : Servidores de correo receptores. &nbsp;</label>
+		</div>
+	</div>
+	<button id="boton">Mostrar resultado</button>
+	<div id="resultado">
+		<br>
+	</div>
+	<script>
+		const contenedor = document.getElementById("test");
+		const botonRes = document.getElementById("boton");
+		const resultadoTest = document.getElementById("resultado");
+
+		const preguntas = [
+			{
+				pregunta: "1. “Se suplanta la identidad de una persona u organización para enviar spam, difundir malware o llevar a cabo ataques de phishing”. La definición anterior corresponde a:",
+				respuestas:
+				{
+					a: "Email Spoofing.",
+					b: "Phishing.",
+					c: "Ingeniería Social.",
+				},
+				respuestaCorrecta: "a",
+			},
+			{
+				pregunta: "2. Un elemento en la cabecera para identificar la autenticidad de un correo corresponde a:",
+				respuestas:
+				{
+					a: "Firma.",
+					b: "Información relativa a quien envía y recibe.",
+					c: "Fecha de creación de los servidores.",
+				},
+				respuestaCorrecta: "b",
+			},
+			{
+				pregunta: "3. Un elemento en la cabecera para identificar la autenticidad de un correo corresponde a:",
+				respuestas:
+				{
+					a: "Fecha de envío y recepción del email.",
+					b: "Cliente de correo que se utilizó para recibirlo.",
+					c: "Servidores de correo receptores.",
+				},
+				respuestaCorrecta: "a",
+			},
+
+		];
+
+		function mostrarTest()
+		{
+			const preguntasYrespuestas = [];
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+
+				const respuestas = [];
+
+				for (letraRespuesta in preguntaActual.respuestas)
+				{
+
+					respuestas.push(
+
+						`
+        <label>
+                  <input type="radio" name="${numeroDePregunta}" value="${letraRespuesta}" />
+                  ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]} <br>
+              </label>` 
+					);
+                   
+				}
+
+				preguntasYrespuestas.push(
+					`
+      <div class="cuestion">${preguntaActual.pregunta}</div>
+      
+          <div class="respuestas"> ${respuestas.join("")} </div>
+          `
+				);
+			});
+
+			contenedor.innerHTML = preguntasYrespuestas.join("");
+		}
+
+		mostrarTest();
+
+		function mostrarResultado()
+		{
+			const respuestas = contenedor.querySelectorAll(".respuestas");
+			let respuestasCorrectas = 0;
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+				const todasLasRespuestas = respuestas[numeroDePregunta];
+				const checkboxRespuestas = `input[name='${numeroDePregunta}']:checked`;
+				const respuestaElegida = (
+					todasLasRespuestas.querySelector(checkboxRespuestas) ||
+					{}
+				).value;
+
+				if (respuestaElegida === preguntaActual.respuestaCorrecta)
+				{
+					respuestasCorrectas++;
+
+					respuestas[numeroDePregunta].style.color = "blue";
+				}
+				else
+				{
+					respuestas[numeroDePregunta].style.color = "red";
+				}
+			});
+
+			resultadoTest.innerHTML =
+				"Usted ha acertado " +
+				respuestasCorrectas +
+				" preguntas de un total de " +
+				preguntas.length;
+		}
+
+		botonRes.addEventListener("click", mostrarResultado);
+
+	</script>
+       </div>
+
+</fieldset>
+</body>
+</html>
